@@ -6,12 +6,14 @@
     </feature>
     <name>tmanagmnet-mobile</name>
     <description>
-        A blank PhoneGap app.
+        tmanagmnet mobile application
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
     <content src="index.html" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
     <access origin="*" />
     <preference name="loglevel" value="DEBUG" />
 </widget>
