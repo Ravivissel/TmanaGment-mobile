@@ -1,6 +1,6 @@
 ﻿let configuration = {
 
-    host: "http://192.168.43.157"+":",
+    host: "http://10.100.102.8"+":",
     port: 5000,
 }
 
