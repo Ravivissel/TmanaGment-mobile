@@ -1,3 +1,4 @@
+cordova.define("phonegap-plugin-push.PushNotification", function(require, exports, module) {
 /* global cordova:false */
 /* globals window */
 
@@ -319,3 +320,5 @@ module.exports = {
 
     PushNotification: PushNotification
 };
+
+});

@@ -1,4 +1,4 @@
-/*
+cordova.define("cordova-plugin-dialogs.notification", function(require, exports, module) { /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -110,3 +110,5 @@ module.exports = {
         exec(null, null, "Notification", "beep", [ defaultedCount ]);
     }
 };
+
+});

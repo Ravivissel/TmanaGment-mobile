@@ -1,4 +1,4 @@
-/* global cordova:false */
+cordova.define("phonegap-plugin-push.BrowserPush", function(require, exports, module) { /* global cordova:false */
 /* globals window, document, navigator */
 
 /*!
@@ -309,3 +309,5 @@ module.exports = {
 
     PushNotification: PushNotification
 };
+
+});

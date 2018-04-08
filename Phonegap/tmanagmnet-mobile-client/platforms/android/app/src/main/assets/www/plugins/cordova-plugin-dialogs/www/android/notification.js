@@ -1,3 +1,4 @@
+cordova.define("cordova-plugin-dialogs.notification_android", function(require, exports, module) {
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -72,3 +73,5 @@ module.exports = {
         exec(null, null, 'Notification', 'progressValue', [ value ]);
     }
 };
+
+});
