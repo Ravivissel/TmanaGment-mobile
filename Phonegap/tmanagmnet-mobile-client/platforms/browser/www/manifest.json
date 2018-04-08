@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "tmanagmnet-mobile",
+  "short_name": "tmanagmnet-mobile",
+  "version": "com.phonegap.helloworld",
+  "description": "tmanagmnet mobile application",
+  "author": "PhoneGap Team",
+  "icons": [],
+  "start_url": "index.html"
+}

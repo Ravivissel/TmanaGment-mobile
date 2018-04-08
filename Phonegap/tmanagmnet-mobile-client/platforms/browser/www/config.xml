@@ -2,12 +2,18 @@
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>test-push-not</name>
     <description>
+<<<<<<< HEAD
         Push sample application that receives push notifications.
+=======
+        tmanagmnet mobile application
+>>>>>>> 039b8d9527c09cdf22b1042e1bf6f36f0ca8bed5
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
     <content src="index.html" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
