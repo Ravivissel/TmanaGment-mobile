@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-<<<<<<< HEAD
     <feature name="StatusBar">
         <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="onload" value="true" />
@@ -11,28 +10,18 @@
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
     </feature>
-=======
->>>>>>> 039b8d9527c09cdf22b1042e1bf6f36f0ca8bed5
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-<<<<<<< HEAD
-    <name>test-push-not</name>
+    <name>Tmanagment</name>
     <description>
-        Push sample application that receives push notifications.
-=======
-    <name>tmanagmnet-mobile</name>
-    <description>
-        tmanagmnet mobile application
->>>>>>> 039b8d9527c09cdf22b1042e1bf6f36f0ca8bed5
+        tmanagment.
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
     <content src="index.html" />
-    <allow-navigation href="*" />
-    <allow-intent href="*" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
