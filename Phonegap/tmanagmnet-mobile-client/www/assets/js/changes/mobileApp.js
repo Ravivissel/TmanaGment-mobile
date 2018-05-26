@@ -1,10 +1,208 @@
 $(document).ready(function () {
 
-    //generate select options
-    //generateAssignToList();
-    //generateAssignToProjectList();
-    //generateAssignToRequestList();
-    //initializeSelect2();
+
+    //Main Page 
+    $(document).on("pagebeforeshow", "#mainDash", function () {
+        renderMainPage();
+
+        function renderMainPage() {
+            var user = GENERAL.USERS.getUser();
+            $('#welcome-user').text("היי " + user.user_name);
+            GetProjects(user, getOpenedProjectsCB, getOpenedProjectsErrorCB);
+        }
+
+        function getOpenedProjectsCB(result) {
+            renderActiveProjectsPage(result);
+        }
+
+        function getOpenedProjectsErrorCB(error) {
+            console.log(error);
+        }
+
+        function renderActiveProjectsPage(openedProjectsData) {
+            results = openedProjectsData;
+
+            localStorage.openedProjectsList = results;
+            $("#openedProjects").empty();
+            $.each(results, function (i, row) {
+                dynamicLi =
+                    '<div class="col-sm-4 col-lg-4 col-xs-12" style="text-align:right">' +
+                    '<div class="card m-b-20">' +
+                    '<div class="card-body" id="' + row.id + '">' +
+                    '<h2 class="card-title">' + row.title + '</h2>' +
+                    '<p class="card-text">' + row.project_manager + ' משימות </p>' +
+                    '</div></div></div>';
+                $('#openedProjects').append(dynamicLi);
+            });
+        }
+
+    });
+
+
+
+
+    //Add Task Page
+
+    $(document).on("pagebeforeshow", "#AddTask", function () {
+        renderAddTaskPage();
+        changeFormState();
+
+        function renderAddTaskPage() {
+
+            var user = GENERAL.USERS.getUser();
+
+            GetEmployees(renderAssignToTaskCB, renderAssignToTaskErrorCB);
+            GetProjects(user, renderAssignToProjectCB, renderAssignToProjectErrorCB);
+            GetRequests(renderAssignToRequestCB,renderAssignToRequestErrorCB)
+
+            
+            
+            
+            
+            function renderAssignToProjectCB(arrProjects) {
+
+                $('#assign_to_project').empty()
+
+                $select = $("#assign_to_project");
+                $('<option>', { value: -1, text: 'בחר' }).attr({ 'selected': '', 'disabled': '' }).appendTo($select);
+                for (i in arrProjects) {
+                    $('<option>', { value: arrProjects[i].id, text: arrProjects[i].title }).appendTo($select);
+                }
+
+
+            }
+            function renderAssignToProjectErrorCB(response) {
+                console.log(response.message);
+            }
+            function renderAssignToTaskCB(arrProjectManager) {
+                $('#assign_to').empty()
+
+                $select = $("#assign_to");
+                $('<option>', { value: -1, text: 'בחר' }).attr({ 'selected': '', 'disabled': '' }).appendTo($select);
+                for (i in arrProjectManager) {
+                    $('<option>', { value: arrProjectManager[i].id, text: arrProjectManager[i].first_name }).appendTo($select);
+                }
+            }
+            function renderAssignToTaskErrorCB(response) {
+                console.log(response.message);
+            }
+            function renderAssignToRequestCB(arrRequests){
+                $('#assign_to_request').empty()
+
+                $select = $("#assign_to_request");
+                $('<option>', { value: -1, text: 'בחר' }).attr({ 'selected': '', 'disabled': '' }).appendTo($select);
+                for (i in arrRequests) {
+                    $('<option>', { value: arrRequests[i].id, text: arrRequests[i].title }).appendTo($select);
+                }
+
+            }
+            function renderAssignToRequestErrorCB(response){
+
+                console.log(response.message)
+
+            }
+
+        }
+    });
+
+    $("#assign_to_p_or_r").change(function () {
+
+        changeFormState();
+       
+    });
+
+    function changeFormState()
+    {
+        if ($("#assign_to_p_or_r option:selected").val() === "פרוייקט") {
+            $("#assignToProjectSection").show();
+            $("#assignToTaskSection").hide();
+        
+        }
+        else if ($("#assign_to_p_or_r option:selected").val() === "פנייה") {
+            $("#assignToProjectSection").hide();
+            $("#assignToTaskSection").show();
+        }
+        else
+        {
+            $("#assignToProjectSection").hide();
+            $("#assignToTaskSection").hide();
+
+        }
+    }
+
+
+    // Calendar Page
+    $(document).on("pagebeforeshow", "#Calendar", function () {
+
+        renderCalenderPage();
+
+        function renderCalenderPage() {
+
+
+
+            var initialLocaleCode = 'he';
+            $('#calendar').fullCalendar({
+
+                header:
+                    {
+                        left: 'listMonth,month,agendaDay',
+                        center: '',
+                        right: 'title'
+                    },
+
+
+                footer: {
+                    center: 'next,today,prev'
+                },
+                businessHours: {
+                    // days of week. an array of zero-based day of week integers (0=Sunday)
+                    dow: [0, 1, 2, 3, 4], // Sunday - Thursday
+
+                    start: '8:00', // a start time (10am in this example)
+                    end: '17:00', // an end time (6pm in this example)
+                },
+                defaultView: 'month',
+                defaultDate: '2018-03-12',
+                locale: initialLocaleCode,
+                buttonIcons: false, // show the prev/next text
+                eventLimit: true, // allow "more" link when too many events
+
+                navLinks: true, // can click day/week names to navigate views
+                displayEventTime: false, // don't show the time column in list view
+                nowIndicator: true,
+                height: 'parent',
+                width: 'parent',
+                googleCalendarApiKey: 'AIzaSyBj-sXH532hBn373ojVSNCkS8zRTETXlTw',
+                lang: 'he',
+
+
+                eventBackgroudColor: '#2494be',
+                eventColor: '#2494be',
+                eventTextColor: "#ffffff",
+                events: 'hcpiii8esnk92cdeha13bm3ris@group.calendar.google.com',
+                loading: function (bool) {
+                    if (bool) $('#loadingConfCalendarBlock').show();
+                    else $('#loadingConfCalendarBlock').hide();
+                },
+                eventClick: function (event) {
+                    // opens events in a popup window
+                    window.open(event.url, 'gcalevent', 'width=700,height=600');
+                    return false;
+                },
+
+                loading: function (bool) {
+                    $('#loading').toggle(bool);
+                }
+
+            });
+        }
+    });
+
+
+
+
+
+
 
 
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
@@ -137,22 +335,24 @@ $(document).ready(function () {
         }
     });
 
-    function LoginCheckCB(result) {
-        var userInDB = result;
-        if (userInDB) {
-            swal({
-                title: "ברוך הבא",
-                type: "success",
-                timer: 1000,
-                showConfirmButton: false
-            });
-            setTimeout(function () {
-                $.mobile.changePage("#mainDash");
-                createMainDash();
-            }, 1001);
-        }
-        else {
-            //alert("פרטים שגויים");
+    function LoginCheckCB(user) {
+
+        GENERAL.USERS.setUser(user);
+
+        swal({
+            title: "ברוך הבא",
+            type: "success",
+            timer: 1000,
+            showConfirmButton: false
+        });
+        setTimeout(function () {
+            $.mobile.changePage("#mainDash");
+        }, 1001);
+
+    }
+
+    function LoginCheckErrorCB(response) {
+        if (response.status == 404) {
             swal({
                 title: "שם משתמש או סיסמא שגוי",
                 type: "warning",
@@ -160,53 +360,25 @@ $(document).ready(function () {
                 showConfirmButton: false
             });
         }
+        else {
+            swal({
+                title: response.messages,
+                type: "warning",
+                timer: 1000,
+                showConfirmButton: false
+            });
+
+        }
+
     }
 
-    function LoginCheckErrorCB(error) {
-        console.log(error);
-        navigator.notification.alert(
-            'Could not get login details from the server',  // message
-            'Connection Error',            // title
-        );
-        
-    }
 
-    function createMainDash() {
-        userName = GENERAL.USERS.getUserName();
-        $('#welcome-user').append(userName);
 
-        //Need to change to be dynamic from the user login session
-        const userId = "65"; //Todo: get data from session
-        var request = {
-            id: userId
-        };
-        getProjects(request, getOpenedProjectsCB, getOpenedProjectsErrorCB); 
-    }
 
-    function getOpenedProjectsCB(result) {
-        renderActiveProjectsPage(result);
-    }
 
-    function getOpenedProjectsErrorCB(error) {
-        console.log(error);
-    }
 
-    function renderActiveProjectsPage(openedProjectsData) {
-        results = openedProjectsData;
-        //for the projectForm page
-        localStorage.openedProjectsList = results;
-        $("#openedProjects").empty();
-        $.each(results, function (i, row) {
-            dynamicLi =
-                '<div class="col-sm-4 col-lg-4 col-xs-12" style="text-align:right">' +
-                '<div class="card m-b-20">' +
-                '<div class="card-body" id="' + row.id + '">' +
-                '<h2 class="card-title">' + row.title + '</h2>' +
-                '<p class="card-text">' + row.project_manager + ' משימות </p>' +
-                '</div></div></div>';
-            $('#openedProjects').append(dynamicLi);
-        });
-    }
+
+
 
     $(document).on('vclick', "#taskPage", function () {
 
@@ -288,13 +460,19 @@ $(document).ready(function () {
     function renderTasks(results) {
         $("#list").empty();
         $.each(results, function (i, row) {
+            var start_date = new Date(moment(row.start_date));
+            start_date = start_date.toLocaleDateString("he-IL");
+
+            var end_date = new Date(moment(row.end_date));
+            end_date = end_date.toLocaleDateString("he-IL");
+
             dynamicLi =
                 '<li class="ui-li">' +
                 '<a href="#" data-id="' + row.d + '" class="ui-btn">' +
                 '<h3>' + row.title + '</h3>' +
                 '<p class="topic"><strong>' + row.created_by + '</strong></p>' +
-                '<p>' + row.start_date + '</p>' +
-                '<p class="ui-li-aside"><strong>' + row.end_date + '</strong></p>' +
+                '<p>' + start_date + '</p>' +
+                '<p class="ui-li-aside"><strong>' + end_date + '</strong></p>' +
                 '</a>' +
                 '</li>';
             $('#list').append(dynamicLi);
@@ -303,74 +481,8 @@ $(document).ready(function () {
 
 });
 
-////DatePicker end_date
-//jQuery('#end_date').datepicker({
-//    toggleActive: true,
-//    clearBtn: true,
-//    autoclose: true,
-//    format: 'dd/mm/yyyy'
-//});
-
 $(document).on('vclick', "#calendarPage", function () {
     $.mobile.changePage("#Calendar", { transition: "slide", changeHash: false });
 });
 
-$(document).on("pagebeforeshow", "#Calendar", function () {
-
-    var initialLocaleCode = 'he';
-    $('#calendar').fullCalendar({
-
-        header:
-            {
-                left: 'listMonth,month,agendaDay',
-                center: '',
-                right: 'title'
-            },
-
-
-        footer: {
-            center: 'next,today,prev'
-        },
-        businessHours: {
-            // days of week. an array of zero-based day of week integers (0=Sunday)
-            dow: [0, 1, 2, 3, 4], // Sunday - Thursday
-
-            start: '8:00', // a start time (10am in this example)
-            end: '17:00', // an end time (6pm in this example)
-        },
-        defaultView: 'month',
-        defaultDate: '2018-03-12',
-        locale: initialLocaleCode,
-        buttonIcons: false, // show the prev/next text
-        eventLimit: true, // allow "more" link when too many events
-
-        navLinks: true, // can click day/week names to navigate views
-        displayEventTime: false, // don't show the time column in list view
-        nowIndicator: true,
-        height: 'parent',
-        width: 'parent',
-        googleCalendarApiKey: 'AIzaSyBj-sXH532hBn373ojVSNCkS8zRTETXlTw',
-        lang: 'he',
-        
-        
-        eventBackgroudColor: '#2494be',
-        eventColor: '#2494be',
-        eventTextColor: "#ffffff",
-        events: 'hcpiii8esnk92cdeha13bm3ris@group.calendar.google.com',
-        loading: function (bool) {
-            if (bool) $('#loadingConfCalendarBlock').show();
-            else $('#loadingConfCalendarBlock').hide();
-        },
-        eventClick: function (event) {
-            // opens events in a popup window
-            window.open(event.url, 'gcalevent', 'width=700,height=600');
-            return false;
-        },
-        
-        loading: function (bool) {
-            $('#loading').toggle(bool);
-        }
-
-    });
-});
 

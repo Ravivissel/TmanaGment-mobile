@@ -55,13 +55,16 @@ var GENERAL = {
     },
 
     USERS: {
-        getUserName: function () {
-            return localStorage.userName;
+        getUser: function () {
+            return JSON.parse(localStorage.user);
         },
-        setUserName: function (userName) {
-            localStorage.userName = userName;
+        setUser: function (user) {
+            localStorage.user = JSON.stringify(user);
         }
     }
+
+
+    
 
 }
 
