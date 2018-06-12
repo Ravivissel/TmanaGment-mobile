@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
    // checkCookie();
     $("#masterPageContext").load("MasterPage.html");
 
@@ -11,6 +10,7 @@ $(document).on('click', '#newRequestForm', function () {
     localStorage.requestList = JSON.stringify(arr_details);
     location.href = "requestsForm.html";
 });
+
 $(document).on('click', '#newTaskForm', function () {
     var taskID = -1;
     var arr_details = { taskID: taskID, func: "new" };
@@ -62,9 +62,6 @@ var GENERAL = {
             localStorage.user = JSON.stringify(user);
         }
     }
-
-
-    
 
 }
 

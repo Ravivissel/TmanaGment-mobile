@@ -1,13 +1,12 @@
 $(document).ready(function () {
 
-
     //Main Page 
     $(document).on("pagebeforeshow", "#mainDash", function () {
         renderMainPage();
 
         function renderMainPage() {
             var user = GENERAL.USERS.getUser();
-            $('#welcome-user').text("היי " + user.user_name);
+            $('#welcome-user').text("ברוך הבא, " + user.first_name);
             GetProjects(user, getOpenedProjectsCB, getOpenedProjectsErrorCB);
         }
 
@@ -31,18 +30,21 @@ $(document).ready(function () {
                     '<div class="card-body" id="' + row.id + '">' +
                     '<h2 class="card-title">' + row.title + '</h2>' +
                     '<p class="card-text">' + row.project_manager + ' משימות </p>' +
+                    '<button type="button" id="show" class="btn btn-primary">כניסה</button>' +
                     '</div></div></div>';
                 $('#openedProjects').append(dynamicLi);
             });
         }
 
+        $(document).on('vclick', "#show", function () {
+            var projectId = $(this).parent().attr('id');
+            GENERAL.PROJECTS.setOpenProjectClicked(projectId);
+            openTaskPage();
+        });
+
     });
 
-
-
-
     //Add Task Page
-
     $(document).on("pagebeforeshow", "#AddTask", function () {
         renderAddTaskPage();
         changeFormState();
@@ -54,29 +56,24 @@ $(document).ready(function () {
             GetEmployees(renderAssignToTaskCB, renderAssignToTaskErrorCB);
             GetProjects(user, renderAssignToProjectCB, renderAssignToProjectErrorCB);
             GetRequests(renderAssignToRequestCB,renderAssignToRequestErrorCB)
-
-            
-            
-            
-            
+          
             function renderAssignToProjectCB(arrProjects) {
-
                 $('#assign_to_project').empty()
-
                 $select = $("#assign_to_project");
                 $('<option>', { value: -1, text: 'בחר' }).attr({ 'selected': '', 'disabled': '' }).appendTo($select);
                 for (i in arrProjects) {
                     $('<option>', { value: arrProjects[i].id, text: arrProjects[i].title }).appendTo($select);
+                    //if (arrProjects[i].Status.Title != "סגור") {
+                    //    $('<option>', { value: arrProjects[i].id, text: arrProjects[i].title }).appendTo($select);
+                    //}
+                    //else $('<option>', { value: arrProjects[i].Id, text: arrProjects[i].Title + " - סגור" }).attr({ 'disabled': '' }).appendTo($select);
                 }
-
-
             }
             function renderAssignToProjectErrorCB(response) {
                 console.log(response.message);
             }
             function renderAssignToTaskCB(arrProjectManager) {
                 $('#assign_to').empty()
-
                 $select = $("#assign_to");
                 $('<option>', { value: -1, text: 'בחר' }).attr({ 'selected': '', 'disabled': '' }).appendTo($select);
                 for (i in arrProjectManager) {
@@ -88,69 +85,55 @@ $(document).ready(function () {
             }
             function renderAssignToRequestCB(arrRequests){
                 $('#assign_to_request').empty()
-
                 $select = $("#assign_to_request");
                 $('<option>', { value: -1, text: 'בחר' }).attr({ 'selected': '', 'disabled': '' }).appendTo($select);
                 for (i in arrRequests) {
-                    $('<option>', { value: arrRequests[i].id, text: arrRequests[i].title }).appendTo($select);
+                    $('<option>', { value: arrRequests[i].Id, text: arrRequests[i].Title }).appendTo($select);
+                    //if (arrRequests[i].Status.Title != "סגורה") {
+                    //    $('<option>', { value: arrRequests[i].Id, text: arrRequests[i].Title }).appendTo($select);
+                    //}
+                    //else $('<option>', { value: arrRequests[i].Id, text: arrRequests[i].Title + " - סגורה" }).attr({ 'disabled': '' }).appendTo($select);
                 }
-
             }
             function renderAssignToRequestErrorCB(response){
-
                 console.log(response.message)
-
             }
 
         }
     });
 
     $("#assign_to_p_or_r").change(function () {
-
-        changeFormState();
-       
+        changeFormState();      
     });
 
     function changeFormState()
     {
         if ($("#assign_to_p_or_r option:selected").val() === "פרוייקט") {
             $("#assignToProjectSection").show();
-            $("#assignToTaskSection").hide();
-        
+            $("#assignToTaskSection").hide();      
         }
         else if ($("#assign_to_p_or_r option:selected").val() === "פנייה") {
             $("#assignToProjectSection").hide();
             $("#assignToTaskSection").show();
         }
-        else
-        {
+        else {
             $("#assignToProjectSection").hide();
             $("#assignToTaskSection").hide();
-
         }
     }
 
-
     // Calendar Page
     $(document).on("pagebeforeshow", "#Calendar", function () {
-
         renderCalenderPage();
-
         function renderCalenderPage() {
-
-
-
             var initialLocaleCode = 'he';
             $('#calendar').fullCalendar({
-
                 header:
                     {
                         left: 'listMonth,month,agendaDay',
                         center: '',
                         right: 'title'
                     },
-
-
                 footer: {
                     center: 'next,today,prev'
                 },
@@ -175,7 +158,6 @@ $(document).ready(function () {
                 googleCalendarApiKey: 'AIzaSyBj-sXH532hBn373ojVSNCkS8zRTETXlTw',
                 lang: 'he',
 
-
                 eventBackgroudColor: '#2494be',
                 eventColor: '#2494be',
                 eventTextColor: "#ffffff",
@@ -197,13 +179,6 @@ $(document).ready(function () {
             });
         }
     });
-
-
-
-
-
-
-
 
     // DO NOT REMOVE : GLOBAL FUNCTIONS!
     var errorClass = 'invalid';
@@ -367,25 +342,19 @@ $(document).ready(function () {
                 timer: 1000,
                 showConfirmButton: false
             });
-
         }
-
     }
 
-
-
-
-
-
-
-
-
     $(document).on('vclick', "#taskPage", function () {
+        openTaskPage();
+    });
 
+    function openTaskPage() {     
         $.mobile.changePage("#Tasks");
-
+        if (JSON.parse(GENERAL.PROJECTS.getOpenProjectClicked()).length != 0) {
+            projectId = JSON.parse(GENERAL.PROJECTS.getOpenProjectClicked());
+        }   
         getAllTasks(getAllTasksCB, getAllTasksError);
-
         // Swipe to remove list item
         $(document).on("swipeleft swiperight", "#list li", function (event) {
             var listitem = $(this),
@@ -444,38 +413,39 @@ $(document).ready(function () {
                 $("#confirm #yes").off();
             });
         }
-    });
+    }
 
     function getAllTasksCB(results) {
-
         renderTasks(results);
-
     }
 
     function getAllTasksError(error) {
-
         console.log(error);
     }
 
     function renderTasks(results) {
         $("#list").empty();
+        user = GENERAL.USERS.getUser();
         $.each(results, function (i, row) {
-            var start_date = new Date(moment(row.start_date));
-            start_date = start_date.toLocaleDateString("he-IL");
 
-            var end_date = new Date(moment(row.end_date));
-            end_date = end_date.toLocaleDateString("he-IL");
+            if (user.id == row.assign_to) {
+                var start_date = new Date(moment(row.start_date));
+                start_date = start_date.toLocaleDateString("he-IL");
 
-            dynamicLi =
-                '<li class="ui-li">' +
-                '<a href="#" data-id="' + row.d + '" class="ui-btn">' +
-                '<h3>' + row.title + '</h3>' +
-                '<p class="topic"><strong>' + row.created_by + '</strong></p>' +
-                '<p>' + start_date + '</p>' +
-                '<p class="ui-li-aside"><strong>' + end_date + '</strong></p>' +
-                '</a>' +
-                '</li>';
-            $('#list').append(dynamicLi);
+                var end_date = new Date(moment(row.end_date));
+                end_date = end_date.toLocaleDateString("he-IL");
+
+                dynamicLi =
+                    '<li class="ui-li">' +
+                    '<a href="#" data-id="' + row.id + '" class="ui-btn">' +
+                    '<h3>' + row.title + '</h3>' +
+                    '<p class="topic"><strong>' + row.created_by + '</strong></p>' +
+                    '<p>' + start_date + '</p>' +
+                    '<p class="ui-li-aside"><strong>' + end_date + '</strong></p>' +
+                    '</a>' +
+                    '</li>';
+                $('#list').append(dynamicLi);
+            }
         });
     }
 

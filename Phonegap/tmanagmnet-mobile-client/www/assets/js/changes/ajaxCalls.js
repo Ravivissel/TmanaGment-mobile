@@ -1,9 +1,7 @@
 ﻿let configuration = {
-
-    host: "http://10.100.102.8"+":",
+    host: "http://10.80.4.187"+":",
     port: 5000,
 }
-
 
 function loginCheck(request, successCB, errorCB) {
     var route = '/api/login';
@@ -23,10 +21,8 @@ function loginCheck(request, successCB, errorCB) {
 }
 
 function GetProjects(request, successCB, errorCB) {
-
     var route = '/api/openProjects';
     var url = configuration.host + configuration.port + route;
-
     // serialize the object to JSON string
     var dataString = JSON.stringify(request);
 
@@ -42,7 +38,6 @@ function GetProjects(request, successCB, errorCB) {
 }
 
 function GetRequests(successCB, errorCB) {
-
     var route = '/api/Requests';
     var url = configuration.host + configuration.port + route;
 
@@ -59,7 +54,6 @@ function getAllTasks(successCB, errorCB) {
     var route = '/api/ActualTasks';
     var url = configuration.host + configuration.port + route;
 
-
     $.ajax({ // ajax call starts
         url: url,       // server side web service method
         type: 'Get',                              // can be also GET
@@ -69,10 +63,10 @@ function getAllTasks(successCB, errorCB) {
         error: errorCB
     }); // end of ajax call
 }
+
 function GetEmployees(successCB, errorCB) {
     var route = '/api/employees';
     var url = configuration.host + configuration.port + route;
-
 
     $.ajax({ // ajax call starts
         url: url,       // server side web service method

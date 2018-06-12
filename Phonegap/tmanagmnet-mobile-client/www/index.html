@@ -1,6 +1,5 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="rtl">
-
 <head>
     <meta charset="utf-8" />
 
@@ -84,14 +83,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="form-group text-left">
-                        <div class="checkbox checkbox-primary">
-                            <input id="checkbox-signup" type="checkbox">
-                            <label for="checkbox-signup">
-                                זכור אותי
-                            </label>
-                        </div>
-                    </div>-->
                         <div class="form-group text-right m-t-20">
                             <button id="loginBTN" class="btn btn-primary btn-custom w-md waves-effect waves-light" type="submit">התחבר</button>
                         </div>
@@ -119,7 +110,6 @@
                 <a href="" data-icon="" class="ti-write" id="taskPage">משימות</a>
                 <a href="#AddTask" data-role="button" data-icon="" class="ti-plus">הוספת משימה</a>
                 <a href="" data-icon="" class="ti-calendar" id="calendarPage">יומן</a>
-                <a href="#Notifications" data-role="button" data-icon="" class="ti-bell">התראות</a>
             </div>
         </div>
         <!--main page end-->
@@ -146,10 +136,10 @@
                     <p id="question">האם ברצונך לסיים את המשימה?</p>
                     <div class="ui-grid-a">
                         <div class="ui-block-a">
-                            <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">כן</a>
+                            <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">אישור</a>
                         </div>
                         <div class="ui-block-b">
-                            <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">בטל</a>
+                            <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">ביטול</a>
                         </div>
                     </div>
                 </div>
@@ -160,7 +150,6 @@
                 <a href="" data-icon="" class="ti-write" id="taskPage">משימות</a>
                 <a href="#AddTask" data-role="button" data-icon="" class="ti-plus">הוספת משימה</a>
                 <a href="" data-icon="" class="ti-calendar" id="calendarPage">יומן</a>
-                <a href="#Notifications" data-role="button" data-icon="" class="ti-bell">התראות</a>
             </div>
         </div>
         <!--tasks page end-->
@@ -168,7 +157,7 @@
         <!--add task page start-->
         <div data-role="page" id="AddTask">
             <div data-role="header" data-position="fixed" data-theme="a">
-                <h2>הוסף משימה</h2>
+                <h2>משימה</h2>
             </div>
             <div data-role="content" id="content">
                 <form class="form-horizontal" role="form" id="taskForm" style="text-align:right">
@@ -176,15 +165,15 @@
                     <input type="text" class="form-control" id="task_title" name="task_title" placeholder="">
                     <label for="text-basic">תאריך יעד:</label>
                     <input type="text" placeholder="dd/mm/yyyy" class="form-control" id="end_date" name="end_date">
+                    <label for="select-choice-1" class="select">משויכת לעובד:</label>
+                    <select id="assign_to" name="assign_to" class="form-control">
+                        <!--employees names are added dynamicly-->
+                    </select>
                     <label class="select">משויכת ל:</label>
                     <select id="assign_to_p_or_r" name="assign_to_p_or_r" class="form-control">
                         <option value="בחר" selected="" disabled="">בחר</option>
                         <option value="פרוייקט">פרוייקט</option>
                         <option value="פנייה">פנייה</option>
-                    </select>
-                    <label for="select-choice-1" class="select">משויכת לעובד:</label>
-                    <select id="assign_to" name="assign_to" class="form-control">
-                        <!--employees names are added dynamicly-->
                     </select>
                     <div id="assignToProjectSection">
                         <label for="select-choice-1" class="select">משויכת לפרוייקט:</label>
@@ -209,7 +198,6 @@
                 <a href="" data-icon="" class="ti-write" id="taskPage">משימות</a>
                 <a href="#AddTask" data-role="button" data-icon="" class="ti-plus">הוספת משימה</a>
                 <a href="" data-icon="" class="ti-calendar" id="calendarPage">יומן</a>
-                <a href="#Notifications" data-role="button" data-icon="" class="ti-bell">התראות</a>
             </div>
         </div>
         <!--add task page end-->
@@ -227,27 +215,9 @@
                 <a href="" data-icon="" class="ti-write" id="taskPage">משימות</a>
                 <a href="#AddTask" data-role="button" data-icon="" class="ti-plus">הוספת משימה</a>
                 <a href="" data-icon="" class="ti-calendar" id="calendarPage">יומן</a>
-                <a href="#Notifications" data-role="button" data-icon="" class="ti-bell">התראות</a>
             </div>
         </div>
         <!--calendar page end-->
-
-        <!--notifications page start-->
-        <div data-role="page" id="Notifications">
-            <div data-role="header" data-position="fixed" data-theme="a">
-                <h2>התראות</h2>
-            </div>
-            <div data-role="content" id="content">
-
-            </div>
-            <div data-role="footer" data-position="fixed" data-theme="a" style="text-align:center">
-                <a href="#mainDash" data-icon="" class="ti-home" id="mainDash">ראשי</a>
-                <a href="" data-icon="" class="ti-write" id="taskPage">משימות</a>
-                <a href="#AddTask" data-role="button" data-icon="" class="ti-plus">הוספת משימה</a>
-                <a href="" data-icon="" class="ti-calendar" id="calendarPage">יומן</a>
-                <a href="#Notifications" data-role="button" data-icon="" class="ti-bell">התראות</a>
-            </div>
-        </div>
     </div>
     <!--notifications page end-->
 
